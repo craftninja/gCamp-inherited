@@ -1,5 +1,5 @@
 <div class="container">
-  <ol class="breadcrumb col-sm-4">
+  <ol class="breadcrumb">
     <li><a><%= link_to "Projects", projects_path %> </a></li>
     <li><a><%= link_to @project.name, project_path(@project) %></a></li>
     <li><a><%= link_to "Tasks", project_tasks_path(@project) %> </a></li>
@@ -7,22 +7,22 @@
   </ol>
 </div>
 
-  <p>
+<p>
   <strong>Description:</strong>
-    <%= @task.description %>
+  <%= @task.description %>
 </p>
 
 <p>
   <strong>Complete:</strong>
-    <%= @task.complete %>
+  <%= @task.complete %>
 </p>
 
 <p>
   <strong>Due Date:</strong>
-    <% if @task.due_date %>
+  <% if @task.due_date %>
     <%= @task.due_date.strftime("%m/%d/%Y") %>
-    <% else nil %>
-    <%end%>
+  <%end%>
 </p>
+
 <%= link_to 'Edit', edit_project_task_path(@project, @task) %> |
 <%= link_to 'Back', project_tasks_path(@project) %>
