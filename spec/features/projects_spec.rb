@@ -86,5 +86,39 @@ feature "Projects" do
 
   end
 
+  scenario "Project only lists project's tasks" do
+    sweater_project = Project.create!(
+      name: 'Make a sweater'
+    )
+    penannular_project = Project.create!(
+      name: 'Make a penannular'
+    )
+
+    sweater_task_1 = Task.create!(
+      project_id: sweater_project.id,
+      description: 'Spin wool',
+    )
+    sweater_task_2 = Task.create!(
+      project_id: sweater_project.id,
+      description: 'Ply yarn',
+    )
+    sweater_task_3 = Task.create!(
+      project_id: sweater_project.id,
+      description: 'Knit sweater',
+    )
+    penannular_task = Task.create!(
+      project_id: penannular_project.id,
+      description: 'Cut wire'
+    )
+
+    visit project_tasks_path(sweater_project)
+      expect(page).to have_content('Make a sweater')
+      expect(page).to have_content('Spin wool')
+      expect(page).to have_content('Ply yarn')
+      expect(page).to have_content('Knit sweater')
+      expect(page).to_not have_content('Make a penannular')
+      expect(page).to_not have_content('Cut wire')
+  end
+
 
 end

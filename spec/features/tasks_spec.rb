@@ -36,7 +36,7 @@ feature "Tasks" do
     )
 
     Task.create!(
-      description: "Feed the dog" , complete: "false" , due_date: Date.today
+      project_id: project.id, description: "Feed the dog" , complete: "false" , due_date: Date.today
     )
 
       visit project_tasks_path(project)
@@ -54,8 +54,8 @@ feature "Tasks" do
       :name => 'Awesome Project'
     )
 
-    Task.create!(
-      description: "Feed the dog" , complete: "false" , due_date: Date.today
+    task = Task.create!(
+      project_id: project.id, description: "Feed the dog" , complete: "false" , due_date: Date.today
     )
 
       visit project_tasks_path(project)
@@ -83,7 +83,7 @@ feature "Tasks" do
     )
 
     Task.create!(
-      description: "Feed the dog" , complete: "false" , due_date: Date.today
+      project_id: project.id, description: "Feed the dog" , complete: "false" , due_date: Date.today
     )
 
     visit project_tasks_path(project)

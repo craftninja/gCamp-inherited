@@ -6,11 +6,11 @@ class TasksController < ApplicationController
   # GET /tasks.json
   def index
 
-    @tasks = Task.where(complete: false).page(params[:page]).per(5)
+    @tasks = @project.tasks.where(complete: false).page(params[:page]).per(5)
     @ref = "incomplete"
 
     if params[:type] =="all"
-      @tasks = Task.all.page(params[:page]).per(5)
+      @tasks = @project.tasks.all.page(params[:page]).per(5)
       @ref = "all"
 
       # @tasks = Post.order(:created_at)
@@ -43,7 +43,7 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = @project.tasks.new(task_params)
 
     respond_to do |format|
       if @task.save
