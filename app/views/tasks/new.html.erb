@@ -1,19 +1,14 @@
-<div class= "new_task">
-
-  <ol class="breadcrumb">
-    <li><a><%= link_to "Tasks", tasks_path %> </a></li>
-    <li class= "active"> New Task</li>
-  </ol>
+<div class= "page-header">
 
   <h1>New Task</h1>
+</div>
+<div class="container">
+  <ol class="breadcrumb col-sm-4">
+    <li><a><%= link_to "Projects", projects_path %> </a></li>
+    <li><a><%= link_to @project.name, project_path(@project) %></a></li>
+    <li><a><%= link_to "Tasks", project_tasks_path(@project) %> </a></li>
+    <li class= "active">New Task</li>
+  </ol>
+</div>
 
   <%= render 'form', button_name: "Create Task" %>
-  
-
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-
-</div>

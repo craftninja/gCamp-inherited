@@ -3,10 +3,17 @@ require 'rails_helper'
 feature "Tasks" do
 
   scenario "User creates a Task" do
+    project = Project.create(
+      :name => 'Awesome Project'
+    )
 
-    visit tasks_path
-    expect(page).to have_content("Tasks")
-
+    visit project_tasks_path(project)
+    expect(page).to have_content('Tasks for Awesome Project')
+    within(".breadcrumb") do
+      expect(page).to have_content('Projects')
+      expect(page).to have_content('Awesome Project')
+      expect(page).to have_content('Tasks')
+    end
     click_on "Create Task"
     expect(page).to have_content("New Task")
 
@@ -24,11 +31,15 @@ feature "Tasks" do
 
   scenario "User wants to see a task" do
 
+    project = Project.create(
+      :name => 'Awesome Project'
+    )
+
     Task.create!(
       description: "Feed the dog" , complete: "false" , due_date: Date.today
     )
 
-      visit tasks_path
+      visit project_tasks_path(project)
       expect(page).to have_content("Feed the dog")
       click_on "Show"
       expect(page).to have_content("Feed the dog")
@@ -39,11 +50,15 @@ feature "Tasks" do
 
   scenario "User wants to edit a task" do
 
+    project = Project.create(
+      :name => 'Awesome Project'
+    )
+
     Task.create!(
       description: "Feed the dog" , complete: "false" , due_date: Date.today
     )
 
-      visit tasks_path
+      visit project_tasks_path(project)
       expect(page).to have_content("Feed the dog")
       click_on "Edit"
       expect(page).to have_content("Editing task")
@@ -63,11 +78,15 @@ feature "Tasks" do
 
   scenario "User wants to delete a Task" do
 
+    project = Project.create(
+      :name => 'Awesome Project'
+    )
+
     Task.create!(
       description: "Feed the dog" , complete: "false" , due_date: Date.today
     )
 
-    visit tasks_path
+    visit project_tasks_path(project)
     expect(page).to have_content("Feed the dog")
     click_on "Destroy"
     expect(page).to have_no_content("Feed the dog")
@@ -77,7 +96,11 @@ feature "Tasks" do
 
   scenario "User wants to create a Task without a description" do
 
-    visit tasks_path
+    project = Project.create(
+      :name => 'Awesome Project'
+    )
+
+    visit project_tasks_path(project)
     expect(page).to have_content("Tasks")
 
     click_on "Create Task"
