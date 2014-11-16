@@ -15,3 +15,8 @@
   </div>
   <br>
 </div>
+<% if @project.tasks == 1 %>
+  <%= link_to '1 task', project_tasks_path(@project) %>
+<% else %>
+  <%= link_to "#{@project.tasks.count} tasks", project_tasks_path(@project) %>
+<% end %>

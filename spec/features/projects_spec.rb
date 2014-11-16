@@ -61,12 +61,15 @@ feature "Projects" do
     expect(page).to have_content("Name can't be blank")
   end
 
-  scenario "Project only lists project's tasks" do
+  scenario "Project lists number of tasks, project tasks lists only project's tasks" do
     sweater_project = Project.create!(
       name: 'Make a sweater'
     )
     penannular_project = Project.create!(
       name: 'Make a penannular'
+    )
+    leather_project = Project.create!(
+      name: 'Make a leather bag'
     )
 
     sweater_task_1 = Task.create!(
@@ -86,6 +89,15 @@ feature "Projects" do
       description: 'Cut wire'
     )
 
+    visit project_path(sweater_project)
+    expect(page).to have_content('3 tasks')
+
+    visit project_path(penannular_project)
+    expect(page).to have_content('1 task')
+
+    visit project_path(leather_project)
+    expect(page).to have_content('0 tasks')
+
     visit project_tasks_path(sweater_project)
     expect(page).to have_content('Make a sweater')
     expect(page).to have_content('Spin wool')
@@ -93,6 +105,30 @@ feature "Projects" do
     expect(page).to have_content('Knit sweater')
     expect(page).to_not have_content('Make a penannular')
     expect(page).to_not have_content('Cut wire')
+  end
+
+  scenario 'User can see list of projects tasks' do
+    sweater_project = Project.create!(
+      name: 'Make a sweater'
+    )
+    sweater_task_1 = Task.create!(
+      project_id: sweater_project.id,
+      description: 'Spin wool',
+    )
+    sweater_task_2 = Task.create!(
+      project_id: sweater_project.id,
+      description: 'Ply yarn',
+    )
+    sweater_task_3 = Task.create!(
+      project_id: sweater_project.id,
+      description: 'Knit sweater',
+    )
+    visit project_path(sweater_project)
+    click_on "#{sweater_project.tasks.count} tasks"
+    expect(page).to have_content('Make a sweater')
+    expect(page).to have_content('Spin wool')
+    expect(page).to have_content('Ply yarn')
+    expect(page).to have_content('Knit sweater')
   end
 
 end
