@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
 
-before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: [:show, :edit, :update, :destroy]
 
   def index
     @projects = Project.all
@@ -8,7 +8,7 @@ before_action :set_project, only: [:show, :edit, :update, :destroy]
 
   def new
     @project = Project.new
-    end
+  end
 
   def create
     @project = Project.new(project_params)
@@ -39,14 +39,14 @@ before_action :set_project, only: [:show, :edit, :update, :destroy]
     redirect_to projects_path, notice: 'Project was successfully deleted.'
   end
 
-private
+  private
 
   def set_project
     @project = Project.find(params[:id])
   end
 
-def project_params
-    params.require(:project).permit(:name)
-end
+  def project_params
+      params.require(:project).permit(:name)
+  end
 
 end

@@ -25,12 +25,12 @@ before_action :set_user, only: [:show, :edit, :update, :destroy]
   end
 
   def update
-      @user.update(user_params)
-      if @user.save
-        redirect_to users_path, notice: 'User was successfully updated.'
-      else
-        render :edit
-      end
+    @user.update(user_params)
+    if @user.save
+      redirect_to users_path, notice: 'User was successfully updated.'
+    else
+      render :edit
+    end
   end
 
   def destroy
@@ -39,14 +39,14 @@ before_action :set_user, only: [:show, :edit, :update, :destroy]
     redirect_to users_path, notice: 'User was successfully deleted.'
   end
 
-private
+  private
 
   def set_user
     @user = User.find(params[:id])
   end
 
   def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
   end
 
 end
