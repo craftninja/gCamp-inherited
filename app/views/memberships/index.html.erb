@@ -4,7 +4,7 @@
     <%= link_to 'Destroy', project_path(@project), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
   </div>
 
-  <h1><strong><%= @project.name %>: Manage Members</strong></h1>
+  <h1><%= @project.name %>: Manage Members</h1>
 <div class="container">
   <% if @membership.errors.any? %>
   <div class= "col-sm-8 alert alert-danger">
@@ -17,15 +17,11 @@
   <% end %>
 </div>
 </div>
-<br>
-<div class="container">
-  <ol class="breadcrumb">
-    <li><a><%= link_to "Projects", projects_path %> </a></li>
-    <li><a><%= link_to @project.name, project_path(@project) %></a></li>
-    <li class= "active">Memberships</li>
-  </ol>
-</div>
-<br>
+<ol class="breadcrumb">
+  <li><a><%= link_to "Projects", projects_path %> </a></li>
+  <li><a><%= link_to @project.name, project_path(@project) %></a></li>
+  <li class= "active">Memberships</li>
+</ol>
 
 </div>
 <div class="container">
