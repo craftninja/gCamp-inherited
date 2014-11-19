@@ -1,33 +1,34 @@
 class MembershipsController < ApplicationController
 
   def index
-    @membership = Membership.new
     @project = Project.find(params[:project_id])
+    @membership = @project.memberships.new
   end
 
   def create
-    @membership = Membership.new(allowed_params)
+    @project = Project.find(params[:project_id])
+    @membership = @project.memberships.new(allowed_params)
     if @membership.save
       redirect_to project_memberships_path
     else
-      @project = Project.find(params[:project_id])
       render :index
     end
   end
 
   def update
-    @membership = Membership.find(params[:id])
+    @project = Project.find(params[:project_id])
+    @membership = @project.memberships.find(params[:id])
     @membership.update(allowed_params)
     if @membership.save
       redirect_to project_memberships_path
     else
-      @project = Project.find(params[:project_id])
       render :index
     end
   end
 
   def destroy
-    membership = Membership.find(params[:id])
+    @project = Project.find(params[:project_id])
+    membership = @project.memberships.find(params[:id])
     membership.destroy
     redirect_to project_memberships_path
   end
@@ -35,6 +36,6 @@ class MembershipsController < ApplicationController
   private
 
   def allowed_params
-    params.require(:membership).permit(:user_id, :role,).merge(:project_id => params[:project_id])
+    params.require(:membership).permit(:user_id, :role,)
   end
 end
