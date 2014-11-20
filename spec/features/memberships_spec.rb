@@ -21,4 +21,27 @@ feature 'Memberships' do
       expect(page).to have_content('member')
     end
   end
+
+  scenario 'User can edit a membership' do
+    password = 'password'
+    user = User.create!(
+      first_name: "Emily",
+      last_name: "Platzer",
+      email: 'emily@example.com',
+      password: password
+    )
+    project = Project.create!(
+      name: "Awesome Project"
+    )
+    membership = Membership.create!(
+      user: user,
+      project: project,
+      role: :member
+    )
+    visit project_memberships_path(project)
+    within ".table" do
+      expect(page).to have_content(user.full_name)
+      expect(page).to have_content(membership.role)
+    end
+  end
 end
