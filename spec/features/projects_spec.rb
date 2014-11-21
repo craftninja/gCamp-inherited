@@ -1,134 +1,118 @@
 require 'rails_helper'
 
-feature "Projects" do
+feature 'Projects' do
 
-  scenario "User can create a Project" do
+  scenario 'User can create a Project' do
     visit projects_path
-    expect(page).to have_content("Projects")
-    click_on "Create Project"
-    fill_in "Name", with: "Build something!"
-    click_on "Create Project"
+    expect(page).to have_content('Projects')
+    click_on 'Create Project'
+    fill_in 'Name', with: 'Build something!'
+    click_on 'Create Project'
 
-    expect(page).to have_content("Build something!")
+    expect(page).to have_content('Build something!')
   end
 
-  scenario "User can see a project" do
-    Project.create!(
-      name: "Build a boat"
-    )
+  scenario 'User can see a project' do
+    project = create_project
 
     visit projects_path
-    click_on "Build a boat"
-    expect(page).to have_content("Build a boat")
-    expect(page).to have_content("Edit")
+    click_on project.name
+
+    expect(page).to have_content(project.name)
+    expect(page).to have_content('Edit')
   end
 
-  scenario "User can edit a project" do
-    project = Project.create!(
-      name: "End War"
-    )
+  scenario 'User can edit a project' do
+    project = create_project
+    new_proj_name = 'Explore new worlds'
 
     visit project_path(project)
-    expect(page).to have_content("End War")
-    click_on "Edit"
-    expect(page).to have_content("Edit Project")
-    fill_in "Name", with: "Build a dog house"
-    click_on "Update Project"
-    expect(page).to have_no_content("End War")
-    expect(page).to have_content("Build a dog house")
-    expect(page).to have_content("Project was successfully updated")
+    expect(page).to have_content(project.name)
+    click_on 'Edit'
+    expect(page).to have_content('Edit Project')
+    fill_in 'Name', with: new_proj_name
+    click_on 'Update Project'
+    expect(page).to have_no_content(project.name)
+    expect(page).to have_content(new_proj_name)
+    expect(page).to have_content('Project was successfully updated')
   end
 
-  scenario "User can delete a Project" do
-    project = Project.create!(
-      name: "Write a song"
-    )
+  scenario 'User can delete a Project' do
+    project = create_project
 
     visit project_path(project)
-    expect(page).to have_content("Write a song")
-    expect(page).to have_content("Destroy")
-    click_on "Destroy"
+    expect(page).to have_content(project.name)
+    expect(page).to have_content('Destroy')
+    click_on 'Destroy'
 
-    expect(page).to have_no_content("Write a song")
-    expect(page).to have_content("Project was successfully deleted")
+    expect(page).to have_no_content(project.name)
+    expect(page).to have_content('Project was successfully deleted')
   end
 
-  scenario "User cannot create a Project without a name" do
+  scenario 'User cannot create a Project without a name' do
     visit projects_path
-    click_on "Create Project"
-    click_on "Create Project"
+    click_on 'Create Project'
+    click_on 'Create Project'
 
     expect(page).to have_content("Name can't be blank")
   end
 
   scenario "Project lists number of tasks, project tasks lists only project's tasks" do
-    sweater_project = Project.create!(
-      name: 'Make a sweater'
-    )
-    penannular_project = Project.create!(
-      name: 'Make a penannular'
-    )
-    leather_project = Project.create!(
-      name: 'Make a leather bag'
-    )
+    project3 = create_project(name: 'Make a sweater')
+    project1 = create_project(name: 'Make a penannular')
+    project0 = create_project(name: 'Make a leather bag')
 
-    sweater_task_1 = Task.create!(
-      project_id: sweater_project.id,
+    p3_task_1 = create_task(
+      project3,
       description: 'Spin wool',
     )
-    sweater_task_2 = Task.create!(
-      project_id: sweater_project.id,
+    p3_task_2 = create_task(
+      project3,
       description: 'Ply yarn',
     )
-    sweater_task_3 = Task.create!(
-      project_id: sweater_project.id,
+    p3_task_3 = create_task(
+      project3,
       description: 'Knit sweater',
     )
-    penannular_task = Task.create!(
-      project_id: penannular_project.id,
+    p1_task = create_task(
+      project1,
       description: 'Cut wire'
     )
 
-    visit project_path(sweater_project)
+    visit project_path(project3)
     expect(page).to have_content('3 tasks')
 
-    visit project_path(penannular_project)
+    visit project_path(project1)
     expect(page).to have_content('1 task')
 
-    visit project_path(leather_project)
+    visit project_path(project0)
     expect(page).to have_content('0 tasks')
 
-    visit project_tasks_path(sweater_project)
-    expect(page).to have_content('Make a sweater')
-    expect(page).to have_content('Spin wool')
-    expect(page).to have_content('Ply yarn')
-    expect(page).to have_content('Knit sweater')
-    expect(page).to_not have_content('Make a penannular')
-    expect(page).to_not have_content('Cut wire')
+    visit project_tasks_path(project3)
+    expect(page).to have_content(project3.name)
+    expect(page).to have_content(p3_task_1.description)
+    expect(page).to have_content(p3_task_2.description)
+    expect(page).to have_content(p3_task_3.description)
+    expect(page).to_not have_content(project1.name)
+    expect(page).to_not have_content(p1_task.description)
   end
 
   scenario 'User can see list of projects tasks' do
-    sweater_project = Project.create!(
-      name: 'Make a sweater'
+    project = create_project
+
+    task_1 = create_task(project)
+    task_2 = create_task(project,
+      description: 'Explore',
     )
-    sweater_task_1 = Task.create!(
-      project_id: sweater_project.id,
-      description: 'Spin wool',
+    task_3 = create_task(project,
+      description: 'Travel',
     )
-    sweater_task_2 = Task.create!(
-      project_id: sweater_project.id,
-      description: 'Ply yarn',
-    )
-    sweater_task_3 = Task.create!(
-      project_id: sweater_project.id,
-      description: 'Knit sweater',
-    )
-    visit project_path(sweater_project)
-    click_on "#{sweater_project.tasks.count} tasks"
-    expect(page).to have_content('Make a sweater')
-    expect(page).to have_content('Spin wool')
-    expect(page).to have_content('Ply yarn')
-    expect(page).to have_content('Knit sweater')
+    visit project_path(project)
+    click_on "#{project.tasks.count} tasks"
+    expect(page).to have_content(project.name)
+    expect(page).to have_content(task_1.description)
+    expect(page).to have_content(task_2.description)
+    expect(page).to have_content(task_3.description)
   end
 
 end
