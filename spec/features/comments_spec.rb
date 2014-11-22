@@ -19,6 +19,8 @@ feature 'Comments' do
     fill_in 'comment[content]', :with => 'That sounds awesome'
     click_on 'Add Comment'
     expect(page).to have_content('That sounds awesome')
+    expect(page).to have_content(user.full_name)
+    expect(page).to have_content('less than a minute')
   end
 
 end
