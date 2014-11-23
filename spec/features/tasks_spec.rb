@@ -28,8 +28,8 @@ feature 'Tasks' do
 
     visit project_tasks_path(project)
 
-    expect(page).to have_content(task.description)
-    click_on 'Show'
+    expect(page).to_not have_link('Show')
+    click_on task.description
     expect(page).to have_content(task.description)
   end
 
