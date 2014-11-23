@@ -23,4 +23,14 @@ feature 'Comments' do
     expect(page).to have_content('less than a minute')
   end
 
+  scenario 'User not logged in cannot see comment form on task show page' do
+    project = create_project
+    task = create_task(project)
+
+    visit project_task_path(project, task)
+    expect(page).to have_content('Comment')
+    expect(page).to_not have_selector('form')
+    expect(page).to_not have_button('Add Comment')
+  end
+
 end
