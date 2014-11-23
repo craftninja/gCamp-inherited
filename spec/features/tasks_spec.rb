@@ -29,8 +29,12 @@ feature 'Tasks' do
     visit project_tasks_path(project)
 
     expect(page).to_not have_link('Show')
+
     click_on task.description
-    expect(page).to have_content(task.description)
+    expect(page).to have_link('Edit')
+    within('.page-header') do
+      expect(page).to have_content(task.description)
+    end
   end
 
   scenario 'User can edit and view complete and incomplete tasks' do
