@@ -58,9 +58,13 @@ feature 'Tasks' do
     task = create_task(project)
 
     visit project_tasks_path(project)
+
     expect(page).to have_content(task.description)
-    click_on 'Destroy'
+    expect(page).to_not have_link('Destroy')
+    find('.glyphicon').click
+
     expect(page).to have_no_content(task.description)
+    expect(page).to have_content('Task was successfully destroyed.')
   end
 
   scenario 'User cannot create a Task without a description' do
