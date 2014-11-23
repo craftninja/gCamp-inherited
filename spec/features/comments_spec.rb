@@ -23,6 +23,7 @@ feature 'Comments' do
       expect(page).to have_content('less than a minute')
       click_on user.full_name
     end
+
     expect(page).to have_content("First Name: #{user.first_name}")
     expect(page).to have_content("Last Name: #{user.last_name}")
     expect(page).to have_content("Email: #{user.email}")
