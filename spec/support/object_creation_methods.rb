@@ -23,6 +23,14 @@ def create_task(project, overrides = {})
   )
 end
 
+def create_comment(task, overrides = {})
+  Comment.create!({
+    :content => 'Nitrox or air?',
+    :task_id => task.id
+    }.merge(overrides)
+  )
+end
+
 def create_membership(project, user, overrides = {})
   Membership.create!({
     :project_id => project.id,
