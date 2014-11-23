@@ -39,4 +39,25 @@ feature 'Comments' do
     expect(page).to_not have_button('Add Comment')
   end
 
+  scenario 'Comment without content is not saved, and has no validation message' do
+    password = 'password'
+    user = create_user(:password => password)
+    project = create_project
+    task = create_task(project)
+
+    visit root_path
+    expect(page).to have_content('gCamp')
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
+
+    visit project_task_path(project, task)
+    click_on 'Add Comment'
+    within('.comments') do
+      expect(page).to_not have_link(user.full_name)
+      expect(page).to_not have_content('less than a minute')
+    end
+  end
+
 end

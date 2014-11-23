@@ -6,9 +6,8 @@ class CommentsController < ApplicationController
 
   def create
     comment = @task.comments.new(comment_params)
-    if comment.save
-      redirect_to project_task_path(@project, @task)
-    end
+    comment.save
+    redirect_to project_task_path(@project, @task)
   end
 
   private
