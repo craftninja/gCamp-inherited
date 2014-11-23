@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Comments' do
 
-  scenario 'User can add comments to a task show page' do
+  scenario 'User can add comments to task show, commenter is linked to user show page' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
@@ -18,9 +18,14 @@ feature 'Comments' do
     visit project_task_path(project, task)
     fill_in 'comment[content]', :with => 'That sounds awesome'
     click_on 'Add Comment'
-    expect(page).to have_content('That sounds awesome')
-    expect(page).to have_content(user.full_name)
-    expect(page).to have_content('less than a minute')
+    within('.comments') do
+      expect(page).to have_content('That sounds awesome')
+      expect(page).to have_content('less than a minute')
+      click_on user.full_name
+    end
+    expect(page).to have_content("First Name: #{user.first_name}")
+    expect(page).to have_content("Last Name: #{user.last_name}")
+    expect(page).to have_content("Email: #{user.email}")
   end
 
   scenario 'User not logged in cannot see comment form on task show page' do
