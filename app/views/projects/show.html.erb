@@ -1,7 +1,5 @@
 <div class= "page-header">
   <div class= "pull-right">
-    <%= link_to 'Tasks', project_tasks_path(@project), class: "btn btn-warning" %>
-    <%= link_to 'Members', project_memberships_path(@project), class: "btn btn-warning" %>
     <%= link_to 'Edit', edit_project_path(@project), class: "btn btn-info" %>
     <%= link_to 'Destroy', project_path(@project), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
   </div>
@@ -12,8 +10,19 @@
   <li><a><%= link_to "Projects", projects_path %> </a></li>
   <li class= "active"><%= @project.name %></li>
 </ol>
-<% if @project.tasks == 1 %>
+
+<div class="row col-sm-12">
+<% if @project.tasks.count == 1 %>
   <%= link_to '1 task', project_tasks_path(@project) %>
 <% else %>
   <%= link_to "#{@project.tasks.count} tasks", project_tasks_path(@project) %>
 <% end %>
+</div>
+
+<div class="row col-sm-12">
+<% if @project.users.count == 1 %>
+  <%= link_to '1 member', project_memberships_path(@project) %>
+<% else %>
+  <%= link_to "#{@project.users.count} members", project_memberships_path(@project) %>
+<% end %>
+</div>

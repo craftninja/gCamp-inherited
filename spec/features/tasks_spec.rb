@@ -110,4 +110,22 @@ feature 'Tasks' do
     end
   end
 
+  scenario 'User can see number of members on project index' do
+    project = create_project
+    user1 = create_user
+    user2 = create_user(
+      :email => 'different@example.com',
+      :first_name => 'Another'
+      )
+    visit project_path(project)
+    click_on '0 members'
+    expect(page).to have_content("#{project.name}: Manage Members")
+    create_membership(project, user1)
+    visit project_path(project)
+    expect(page).to have_content('1 member')
+    create_membership(project, user2)
+    visit project_path(project)
+    expect(page).to have_content('2 members')
+  end
+
 end
