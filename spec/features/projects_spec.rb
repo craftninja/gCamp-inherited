@@ -115,4 +115,45 @@ feature 'Projects' do
     expect(page).to have_content(task_3.description)
   end
 
+  scenario 'Projects index also lists number of members, tasks' do
+
+    project00 = create_project
+    visit projects_path
+    within('tbody') do
+      within first('tr') do
+        expect(page).to have_content('0', :count => 2)
+      end
+    end
+    project00.destroy
+
+    project11 = create_project
+    user1 = create_user
+    create_task(project11)
+    create_membership(project11, user1)
+    visit projects_path
+    within('tbody') do
+      within first('tr') do
+        expect(page).to have_content('1', :count => 2)
+      end
+    end
+    project11.destroy
+
+    project33 = create_project
+    user2 = create_user(:email => 'email2@example.com')
+    user3 = create_user(:email => 'email3@example.com')
+    create_task(project33)
+    create_task(project33, :description => 'another')
+    create_task(project33, :description => 'and another')
+    create_membership(project33, user1)
+    create_membership(project33, user2)
+    create_membership(project33, user3)
+    visit projects_path
+    within('tbody') do
+      within first('tr') do
+        expect(page).to have_content('3', :count => 2)
+      end
+    end
+    project33.destroy
+  end
+
 end
