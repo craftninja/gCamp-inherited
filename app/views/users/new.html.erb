@@ -2,11 +2,10 @@
   <h1>New User</h1>
 </div>
 
-<div class= "form-horizontal">
-  <%= form_for(@user) do |f| %>
-<div class= "form-group">
 <% if @user.errors.any? %>
-  <div class= "col-sm-offset-2 col-sm-6 alert-danger">
+<div class="row">
+  <div class="col-sm-12">
+  <div class="col-sm-offset-2 col-sm-6 alert alert-danger">
     <h3><%= pluralize(@user.errors.count, "error") %> prohibited this task from being saved:</h3>
       <ul>
         <% @user.errors.full_messages.each do |message| %>
@@ -14,8 +13,11 @@
         <% end %>
       </ul>
   </div>
+  </div>
 </div>
 <% end %>
+<div class= "form-horizontal">
+  <%= form_for(@user) do |f| %>
 
   <div class="form-group">
     <%= f.label :first_name, "First Name", class: "col-sm-2 control-label" %>

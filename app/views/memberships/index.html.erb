@@ -5,10 +5,12 @@
   </div>
 
   <h1><%= @project.name %>: Manage Members</h1>
+</div>
 
-  <div class="container">
-    <% if @membership.errors.any? %>
-      <div class= "col-sm-8 alert alert-danger">
+  <% if @membership.errors.any? %>
+    <div class="row">
+      <div class="col-sm-12">
+      <div class= "col-sm-7 alert alert-danger">
         <h3><%= pluralize(@membership.errors.count, "error") %> prohibited this task from being saved:</h3>
         <ul>
           <% @membership.errors.full_messages.each do |message| %>
@@ -16,8 +18,9 @@
           <% end %>
         </ul>
       </div>
-    <% end %>
-  </div>
+    </div>
+    </div>
+  <% end %>
 
   <ol class="breadcrumb">
     <li><a><%= link_to "Projects", projects_path %> </a></li>
@@ -25,18 +28,19 @@
     <li class= "active">Memberships</li>
   </ol>
 
-</div>
 
-<div class="container">
-  <div class="well form-inline col col-sm-7">
+<div class="row">
+  <div class="col-sm-12">
+  <div class="well form-inline col-sm-7">
     <%= form_for [@project, @membership] do |f| %>
       <%= f.collection_select :user_id, User.order(:first_name), :id, :full_name, {:prompt => true}, {class: "dropdown form-control"} %>
       <%= f.select :role, [:member , :owner], {:prompt => true}, {class: "dropdown-toggle form-control"} %>
       <%= f.submit 'Add New Member', class: "btn btn-primary" %>
     <% end %>
   </div>
+  </div>
 
-  <div class="col col-sm-6">
+  <div class="col-sm-6">
     <table class="table">
       <% @project.memberships.each do |membership| %>
         <%= form_for [@project, membership] do |f| %>
