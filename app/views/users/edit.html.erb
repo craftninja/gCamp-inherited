@@ -3,51 +3,56 @@
 </div>
 
 <% if @user.errors.any? %>
-<div class="row">
-  <div class="col-sm-12">
-  <div class="col-sm-offset-2 col-sm-6 alert alert-danger">
-    <h3><%= pluralize(@user.errors.count, "error") %> prohibited this task from being saved:</h3>
-      <ul>
-        <% @user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="col-sm-offset-2 col-sm-6 alert alert-danger">
+        <h3><%= pluralize(@user.errors.count, "error") %> prohibited this task from being saved:</h3>
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
   </div>
-  </div>
-</div>
 <% end %>
 
 <div class= "form-horizontal">
-    <%= form_for(@user) do |f| %>
-  <div class="form-group">
-    <%= f.label :first_name, "First Name", class: "col-sm-2 control-label" %>
+  <%= form_for(@user) do |f| %>
+    <div class="form-group">
+      <%= f.label :first_name, "First Name", class: "col-sm-2 control-label" %>
       <div class="col-sm-4">
         <%= f.text_field :first_name, class: "form-control" %>
       </div>
-  </div>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :last_name, "Last Name", class: "col-sm-2 control-label" %>
+    <div class="form-group">
+      <%= f.label :last_name, "Last Name", class: "col-sm-2 control-label" %>
       <div class="col-sm-4">
         <%= f.text_field :last_name, class: "form-control" %>
       </div>
-  </div>
+    </div>
 
 
-  <div class="form-group">
+    <div class="form-group">
       <%= f.label :email, class: "col-sm-2 control-label" %>
       <div class="col-sm-4">
           <%= f.email_field :email, class: "form-control" %>
       </div>
-  </div>
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-4"> <br>
-      <%= f.submit button_name:"Update User", class: "btn btn-primary" %>
     </div>
-  </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-4"> <br>
+        <%= f.submit button_name:"Update User", class: "btn btn-primary" %>
+      </div>
+    </div>
   <%end%>
-  <div class=" col-sm-offset-2 col-sm-4 well well-lg text-center">
-    <%= link_to 'Delete User', user_path(@user), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="col-sm-offset-2 col-sm-4 well well-lg text-center">
+      <%= link_to 'Delete User', user_path(@user), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+    </div>
   </div>
 </div>
