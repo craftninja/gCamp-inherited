@@ -42,8 +42,9 @@ feature 'Projects' do
 
     visit project_path(project)
     expect(page).to have_content(project.name)
-    expect(page).to have_content('Destroy')
-    click_on 'Destroy'
+    within('.well') do
+      click_on 'Delete'
+    end
 
     expect(page).to have_no_content(project.name)
     expect(page).to have_content('Project was successfully deleted')
