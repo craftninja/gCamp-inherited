@@ -29,4 +29,20 @@ describe Task do
     expect(task.valid?).to be(true)
   end
 
+  it 'verifies that deletion of task also deletes associated comments' do
+    project = create_project
+    task = create_task(project)
+    comment1 = create_comment(task)
+
+    expect(Project.where(:id => project.id).any?).to be(true)
+    expect(Task.where(:project_id => project.id).any?).to be(true)
+    expect(Comment.where(:task_id => task.id).any?).to be(true)
+
+    task.destroy
+
+    expect(Project.where(:id => project.id).any?).to be(true)
+    expect(Task.where(:project_id => project.id).any?).to be(false)
+    expect(Comment.where(:task_id => task.id).any?).to be(false)
+  end
+
 end
