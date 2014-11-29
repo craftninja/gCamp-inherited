@@ -11,18 +11,22 @@
   <li class= "active"><%= @project.name %></li>
 </ol>
 
-<div class="row col-sm-12">
-<% if @project.tasks.count == 1 %>
-  <%= link_to '1 task', project_tasks_path(@project) %>
-<% else %>
-  <%= link_to "#{@project.tasks.count} tasks", project_tasks_path(@project) %>
-<% end %>
+<div class="row">
+  <div class="col-sm-12">
+    <% if @project.tasks.count == 1 %>
+      <%= link_to '1 task', project_tasks_path(@project) %>
+    <% else %>
+      <%= link_to "#{@project.tasks.count} tasks", project_tasks_path(@project) %>
+    <% end %>
+  </div>
 </div>
 
-<div class="row col-sm-12">
-<% if @project.users.count == 1 %>
-  <%= link_to '1 member', project_memberships_path(@project) %>
-<% else %>
-  <%= link_to "#{@project.users.count} members", project_memberships_path(@project) %>
-<% end %>
+<div class="row">
+  <div class="col-sm-12">
+    <% if @project.users.count == 1 %>
+      <%= link_to '1 member', project_memberships_path(@project) %>
+    <% else %>
+      <%= link_to "#{@project.users.count} members", project_memberships_path(@project) %>
+    <% end %>
+  </div>
 </div>
