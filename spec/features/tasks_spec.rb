@@ -14,11 +14,11 @@ feature 'Tasks' do
     end
     click_on 'Create Task'
     expect(page).to have_content('New Task')
-    fill_in 'Description', with: 'Extreme Testing!'
+    fill_in 'Description', with: 'New Task Description'
     fill_in 'Due date', with: Date.today
     click_on 'Create Task'
 
-    expect(page).to have_content('Extreme Testing!')
+    expect(page).to have_content('New Task Description')
     expect(page).to have_content('Task was successfully created.')
   end
 
@@ -90,9 +90,9 @@ feature 'Tasks' do
 
     project3 = create_project
     task3 = create_task(project3)
-    comment3a = create_comment(task3, :content => 'When do we get started?')
-    comment3b = create_comment(task3, :content => 'That sounds fun')
-    comment3c = create_comment(task3, :content => 'I will be there')
+    comment3a = create_comment(task3)
+    comment3b = create_comment(task3)
+    comment3c = create_comment(task3)
 
     visit project_tasks_path(project0)
     within('.badge') do
@@ -113,10 +113,8 @@ feature 'Tasks' do
   scenario 'User can see number of members on project index' do
     project = create_project
     user1 = create_user
-    user2 = create_user(
-      :email => 'different@example.com',
-      :first_name => 'Another'
-      )
+    user2 = create_user
+
     visit project_path(project)
     click_on '0 members'
     expect(page).to have_content("#{project.name}: Manage Members")

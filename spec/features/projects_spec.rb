@@ -24,7 +24,7 @@ feature 'Projects' do
 
   scenario 'User can edit a project' do
     project = create_project
-    new_proj_name = 'Explore new worlds'
+    new_proj_name = 'New Project Name'
 
     visit project_path(project)
     expect(page).to have_content(project.name)
@@ -59,26 +59,15 @@ feature 'Projects' do
   end
 
   scenario "Project lists number of tasks, project tasks lists only project's tasks" do
-    project3 = create_project(name: 'Make a sweater')
-    project1 = create_project(name: 'Make a penannular')
-    project0 = create_project(name: 'Make a leather bag')
+    project3 = create_project
+    project1 = create_project
+    project0 = create_project
 
-    p3_task_1 = create_task(
-      project3,
-      description: 'Spin wool',
-    )
-    p3_task_2 = create_task(
-      project3,
-      description: 'Ply yarn',
-    )
-    p3_task_3 = create_task(
-      project3,
-      description: 'Knit sweater',
-    )
-    p1_task = create_task(
-      project1,
-      description: 'Cut wire'
-    )
+    p3_task_1 = create_task(project3)
+    p3_task_2 = create_task(project3)
+    p3_task_3 = create_task(project3)
+
+    p1_task = create_task(project1)
 
     visit project_path(project3)
     expect(page).to have_content('3 tasks')
@@ -100,14 +89,10 @@ feature 'Projects' do
 
   scenario 'User can see list of projects tasks' do
     project = create_project
-
     task_1 = create_task(project)
-    task_2 = create_task(project,
-      description: 'Explore',
-    )
-    task_3 = create_task(project,
-      description: 'Travel',
-    )
+    task_2 = create_task(project)
+    task_3 = create_task(project)
+
     visit project_path(project)
     click_on "#{project.tasks.count} tasks"
     expect(page).to have_content(project.name)
@@ -140,11 +125,11 @@ feature 'Projects' do
     project11.destroy
 
     project33 = create_project
-    user2 = create_user(:email => 'email2@example.com')
-    user3 = create_user(:email => 'email3@example.com')
+    user2 = create_user
+    user3 = create_user
     create_task(project33)
-    create_task(project33, :description => 'another')
-    create_task(project33, :description => 'and another')
+    create_task(project33)
+    create_task(project33)
     create_membership(project33, user1)
     create_membership(project33, user2)
     create_membership(project33, user3)

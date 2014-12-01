@@ -1,8 +1,8 @@
 def create_user(overrides = {})
   User.create!({
-    :first_name => 'Thomas',
-    :last_name => 'Iliffe',
-    :email => 'tom@email.com',
+    :first_name => "First Name #{rand(100..999)}",
+    :last_name => "Last Name #{rand(100..999)}",
+    :email => "email#{rand(100..999)}@email.com",
     :password => 'password'
     }.merge(overrides)
   )
@@ -10,14 +10,14 @@ end
 
 def create_project(overrides = {})
   Project.create!({
-    :name => 'Discover new species'
+    :name => "Project Name #{rand(100..999)}"
     }.merge(overrides)
   )
 end
 
 def create_task(project, overrides = {})
   Task.create!({
-    :description => 'Go cave diving',
+    :description => "Task Desc #{rand(100..999)}",
     :project_id => project.id
     }.merge(overrides)
   )
@@ -25,7 +25,7 @@ end
 
 def create_comment(task, overrides = {})
   Comment.create!({
-    :content => 'Nitrox or air?',
+    :content => "Comment content #{rand(100..999)}",
     :task_id => task.id
     }.merge(overrides)
   )
