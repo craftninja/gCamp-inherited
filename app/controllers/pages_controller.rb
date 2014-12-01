@@ -1,6 +1,13 @@
 class PagesController < ApplicationController
 
   def about
+    @counts = {
+      :project => Project.all.count,
+      :task => Task.all.count,
+      :user => User.all.count,
+      :member => Membership.all.count,
+      :comment => Comment.all.count,
+    }
   end
 
   def index

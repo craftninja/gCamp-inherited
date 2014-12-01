@@ -1,8 +1,31 @@
-<div class="page header text-center">
-    <h1>About</h1>
-  <p>Get organized and increase productivity with your team.</p>
+<div class="page header">
+  <h1>About</h1>
 </div>
-
-<div class="text-center">
-  <%= image_tag("meeting.png") %>
+<div class="row">
+  <div class="col-md-4">
+    <%= image_tag("aboutimg.jpeg", class: "img-responsive") %>
+  </div>
+  <div class="col-md-8">
+    <p>
+      We are dedicated to the makers, the creators, the risk-takers. We wake up in the middle of the night and furiously write down ideas about how to make your online life better.
+    </p>
+    <p>
+      When we are not hard at work we are hard at play - we are the loud ones in the bar, and we're always the ones shutting the place down. Human collaboration and communication is what drives us, and it infuses every feature of gCamp.
+    </p>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-12">
+    <p>
+      gCamp is extremely active. Check out our killer stats!
+    </p>
+    <p>
+      <%= "#{@counts[:project]} #{"Project".pluralize(@counts[:project])},
+           #{@counts[:task]} #{"Task".pluralize(@counts[:task])},
+           #{@counts[:user]} #{"User".pluralize(@counts[:user])},
+           #{@counts[:member]} #{"Member".pluralize(@counts[:member])},
+           #{@counts[:comment]} #{"Comment".pluralize(@counts[:comment])}"%>
+    </p>
+  </div>
 </div>
