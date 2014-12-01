@@ -107,7 +107,7 @@ feature 'Projects' do
     visit projects_path
     within('tbody') do
       within first('tr') do
-        expect(page).to have_content('0', :count => 2)
+        expect(page).to have_content('0', :minimum => 2)
       end
     end
     project00.destroy
@@ -119,7 +119,7 @@ feature 'Projects' do
     visit projects_path
     within('tbody') do
       within first('tr') do
-        expect(page).to have_content('1', :count => 2)
+        expect(page).to have_content('1', :minimum => 2)
       end
     end
     project11.destroy
@@ -136,7 +136,7 @@ feature 'Projects' do
     visit projects_path
     within('tbody') do
       within first('tr') do
-        expect(page).to have_content('3', :count => 2)
+        expect(page).to have_content('3', :minimum => 2)
       end
     end
     project33.destroy
