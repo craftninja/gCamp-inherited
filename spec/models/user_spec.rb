@@ -3,33 +3,30 @@ require 'rails_helper'
 
 describe User do
 
-  it 'verifies that user is invaild' do
-
+  it 'validates presence of first name, last name, email, password' do
     user = User.new
     expect(user.valid?).to be(false)
-    user.first_name =
+    user.first_name = 'Barbara'
     expect(user.valid?).to be(false)
-    user.last_name=
+    user.last_name='Walker'
     expect(user.valid?).to be(false)
-    user.email=
+    user.email='barbara@example.com'
     expect(user.valid?).to be(false)
-
+    user.password='password'
+    expect(user.valid?).to be(true)
   end
 
-  it 'verifies that user is vaild' do
-
-    user = User.new
+  it 'validates uniqueness of email' do
+    previous_user = create_user(:email => 'email@example.com')
+    user = User.new(
+      :first_name => 'Susun',
+      :last_name => 'Weed',
+      :password => 'password',
+    )
+    user.email = 'email@example.com'
     expect(user.valid?).to be(false)
-    user.first_name = 'Bob'
-    expect(user.valid?).to be(false)
-    user.last_name='Smith'
-    expect(user.valid?).to be(false)
-    user.email='smith@example.com'
-    expect(user.valid?).to be(false)
-    user.password='pass'
+    user.email = 'susun@example.com'
     expect(user.valid?).to be(true)
-
-
   end
 
 end
