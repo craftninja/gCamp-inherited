@@ -47,5 +47,7 @@
 <% @quotes.each do |quote| %>
   <p><%= quote.text %></p>
   <p><%= quote.author %></p>
-  <hr>
+  <% unless quote == @quotes.last %>
+    <hr>
+  <% end %>
 <% end %>
