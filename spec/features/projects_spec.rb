@@ -6,11 +6,8 @@ feature 'Projects' do
     password = 'password'
     user = create_user(:password => password)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit projects_path
     expect(page).to have_content('Projects')
     click_on 'Create Project'
@@ -30,11 +27,8 @@ feature 'Projects' do
     create_task(project)
     create_membership(project, user)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit projects_path
     click_on project.name
 
@@ -50,11 +44,8 @@ feature 'Projects' do
     project = create_project
     new_proj_name = 'New Project Name'
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit project_path(project)
     expect(page).to have_content(project.name)
     click_on 'Edit'
@@ -71,11 +62,8 @@ feature 'Projects' do
     user = create_user(:password => password)
     project = create_project
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit project_path(project)
     expect(page).to have_content(project.name)
     within('.well') do
@@ -90,11 +78,8 @@ feature 'Projects' do
     password = 'password'
     user = create_user(:password => password)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit projects_path
     click_on 'Create Project'
     click_on 'Create Project'
@@ -116,11 +101,7 @@ feature 'Projects' do
 
     p1_task = create_task(project1)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
 
     visit project_path(project3)
     expect(page).to have_content('3 tasks')
@@ -149,11 +130,8 @@ feature 'Projects' do
     task_2 = create_task(project)
     task_3 = create_task(project)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit project_path(project)
     click_on "#{project.tasks.count} tasks"
     expect(page).to have_content(project.name)
@@ -167,11 +145,8 @@ feature 'Projects' do
     user = create_user(:password => password)
     project00 = create_project
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit projects_path
     within('tbody') do
       within first('tr') do

@@ -6,11 +6,8 @@ feature 'Users' do
     password = 'password'
     user = create_user(:password => password)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit users_path
     expect(page).to have_content('Users')
     click_on 'Create User'
@@ -29,11 +26,8 @@ feature 'Users' do
     password = 'password'
     user = create_user(:password => password)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit users_path
     expect(page).to have_content(user.first_name)
     click_on 'Edit'
@@ -50,11 +44,8 @@ feature 'Users' do
     password = 'password'
     user = create_user(:password => password)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit users_path
     within '.table' do
       click_on user.full_name
@@ -67,11 +58,8 @@ feature 'Users' do
     password = 'password'
     user = create_user(:password => password)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit users_path
     expect(page).to have_content(user.full_name)
     click_on 'Edit'

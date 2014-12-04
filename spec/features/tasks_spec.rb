@@ -7,11 +7,7 @@ feature 'Tasks' do
     user = create_user(:password => password)
     project = create_project
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
 
     visit project_tasks_path(project)
     expect(page).to have_content("Tasks for #{project.name}")
@@ -36,13 +32,9 @@ feature 'Tasks' do
     project = create_project
     task = create_task(project)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
-    visit project_tasks_path(project)
+    sign_in(user, password)
 
+    visit project_tasks_path(project)
     expect(page).to_not have_link('Show')
 
     click_on task.description
@@ -58,11 +50,8 @@ feature 'Tasks' do
     project = create_project
     task = create_task(project)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit project_tasks_path(project)
     expect(page).to have_content(task.description)
     click_on 'Edit'
@@ -85,11 +74,8 @@ feature 'Tasks' do
     project = create_project
     task = create_task(project)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit project_tasks_path(project)
 
     expect(page).to have_content(task.description)
@@ -105,11 +91,8 @@ feature 'Tasks' do
     user = create_user(:password => password)
     project = create_project
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit project_tasks_path(project)
     click_on 'Create Task'
     click_on 'Create Task'
@@ -134,11 +117,8 @@ feature 'Tasks' do
     comment3b = create_comment(task3)
     comment3c = create_comment(task3)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit project_tasks_path(project0)
     within('.badge') do
       expect(page).to have_content(0)
@@ -161,11 +141,8 @@ feature 'Tasks' do
     user1 = create_user(:password => password)
     user2 = create_user
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user1.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user1, password)
+
     visit project_path(project)
     click_on '0 members'
     expect(page).to have_content("#{project.name}: Manage Members")

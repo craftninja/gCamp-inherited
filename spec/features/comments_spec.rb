@@ -8,12 +8,7 @@ feature 'Comments' do
     project = create_project
     task = create_task(project)
 
-    visit root_path
-    expect(page).to have_content('gCamp')
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
 
     visit project_task_path(project, task)
     fill_in 'comment[content]', :with => 'That sounds awesome'
@@ -35,12 +30,8 @@ feature 'Comments' do
     project = create_project
     task = create_task(project)
 
-    visit root_path
-    expect(page).to have_content('gCamp')
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
 
     visit project_task_path(project, task)
     click_on 'Add Comment'

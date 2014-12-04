@@ -6,11 +6,8 @@ feature 'Memberships' do
     user = create_user(:password => password)
     project = create_project
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit project_memberships_path(project)
     select user.full_name, from: 'membership_user_id'
     select 'member', from: 'membership_role'
@@ -30,11 +27,8 @@ feature 'Memberships' do
     membership = create_membership(project, user)
     new_role = 'owner'
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit project_memberships_path(project)
     within '.table' do
       select new_role, from: 'membership_role'
@@ -54,11 +48,8 @@ feature 'Memberships' do
     project = create_project
     membership = create_membership(project, user)
 
-    visit root_path
-    click_link ('Sign In')
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: password
-    click_button('Sign in')
+    sign_in(user, password)
+
     visit project_memberships_path(project)
 
     within '.table' do
