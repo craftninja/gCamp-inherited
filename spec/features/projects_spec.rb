@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Projects' do
 
-  scenario 'Logged in user can create a Project, are added as project owner' do
+  scenario 'Logged in user can create a Project, are added as project owner, redirected to tasks index' do
     password = 'password'
     user = create_user(:password => password)
 
@@ -14,7 +14,9 @@ feature 'Projects' do
     fill_in 'Name', with: 'Build something!'
     click_on 'Create Project'
 
-    expect(page).to have_content('Build something!')
+    expect(page).to have_content('Tasks for Build something!')
+
+    click_on 'Build something!'
     expect(page).to have_content('1 membership')
     click_on '1 membership'
 
