@@ -13,16 +13,16 @@ class PagesController < ApplicationController
   def index
 
     quote1 = Quote.new
-    quote1.text = "foobar"
-    quote1.author = "Jeff"
+    quote1.text = "We are drowning in information, while starving for wisdom. The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely."
+    quote1.author = "E. O. Wilson"
 
     quote2 = Quote.new
-    quote2.text = "baz"
-    quote2.author = "Steve"
+    quote2.text = "The heart cannot be broken. Only the barriers that protect the heart from the pain of life can be broken. Although never sought, heartache can be seen as a deep opening of the heart."
+    quote2.author = "Susun Weed"
 
     quote3 = Quote.new
-    quote3.text = "w00t"
-    quote3.author = "Lark"
+    quote3.text = "The ultimate tragedy is not the oppression and cruelty by the bad people but the silence over that by the good people."
+    quote3.author = "Martin Luther King Jr."
 
     @quotes = [quote1, quote2, quote3]
 
