@@ -8,7 +8,7 @@ feature 'Projects' do
 
     sign_in(user, password)
 
-    visit projects_path
+    click_on 'gCamp'
     expect(page).to have_content('Projects')
     click_on 'Create Project'
     fill_in 'Name', with: 'Build something!'
