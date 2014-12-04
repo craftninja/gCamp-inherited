@@ -20,12 +20,18 @@ feature 'Memberships' do
     user = create_user
     project = create_project
     membership = create_membership(project, user)
+    new_role = 'owner'
 
     visit project_memberships_path(project)
+    within '.table' do
+      select new_role, from: 'membership_role'
+      click_on 'Update'
+    end
 
+    expect(page).to have_content("#{user.full_name} was updated successfully")
     within '.table' do
       expect(page).to have_content(user.full_name)
-      expect(page).to have_content(membership.role)
+      expect(page).to have_content(new_role)
     end
   end
 
@@ -40,6 +46,7 @@ feature 'Memberships' do
       expect(page).to have_content(user.full_name)
     end
     find('.glyphicon').click
+    expect(page).to have_content("#{user.full_name} was removed successfully")
     within '.table' do
       expect(page).to_not have_content(user.full_name)
     end
