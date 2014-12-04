@@ -15,6 +15,7 @@ feature 'Sign in' do
     click_button('Sign in')
 
     expect(page).to have_content(user.full_name)
+    expect(page).to have_link('Create Project')
     expect(page).to have_content('Sign Out')
     expect(page).to have_no_content('Sign In')
     within '.navbar' do
