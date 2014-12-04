@@ -14,6 +14,7 @@ feature 'Sign Up' do
 
     click_on 'Sign up'
 
+    expect(page).to have_content('Create Project')
     expect(page).to have_content('Thomas Iliffe')
     expect(page).to have_content('Sign Out')
     expect(page).to have_no_content('Sign In')
