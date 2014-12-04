@@ -16,6 +16,12 @@ feature 'Visitor experience' do
 
     visit users_path
     expect(page).to have_content('You must be logged in to access that action')
+
+    expect(page).to_not have_link('Projects')
+    expect(page).to_not have_link('Users')
+    within '.navbar' do
+      expect(page).to_not have_content('My Projects')
+    end
   end
 
 end

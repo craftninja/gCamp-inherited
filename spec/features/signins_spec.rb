@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Sign in' do
 
-  scenario 'User wants to sign in with valid data' do
+  scenario 'User can sign in, sees My Projects link in navbar' do
     password = 'password'
     user = create_user(:password => password)
 
@@ -17,7 +17,9 @@ feature 'Sign in' do
     expect(page).to have_content(user.full_name)
     expect(page).to have_content('Sign Out')
     expect(page).to have_no_content('Sign In')
-
+    within '.navbar' do
+      expect(page).to have_content('My Projects')
+    end
   end
 
   scenario 'User cannot sign in with invalid email' do

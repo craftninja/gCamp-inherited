@@ -1,4 +1,4 @@
-class AuthenticationController < ApplicationController
+class AuthenticationController < PagesController
   skip_before_action :require_login
 
   def create

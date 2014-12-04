@@ -1,4 +1,4 @@
-class RegistrationsController < ApplicationController
+class RegistrationsController < PagesController
   skip_before_action :require_login
 
   def new
