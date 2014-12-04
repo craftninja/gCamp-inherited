@@ -10,6 +10,7 @@ feature 'Memberships' do
     select 'member', from: 'membership_role'
     click_on 'Add New Member'
 
+    expect(page).to have_content("#{user.full_name} was added successfully")
     within '.table' do
       expect(page).to have_content(user.full_name)
       expect(page).to have_content('member')

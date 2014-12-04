@@ -9,7 +9,7 @@ class MembershipsController < ApplicationController
     @project = Project.find(params[:project_id])
     @membership = @project.memberships.new(allowed_params)
     if @membership.save
-      redirect_to project_memberships_path
+      redirect_to project_memberships_path, notice: "#{@membership.user.full_name} was added successfully"
     else
       render :index
     end
