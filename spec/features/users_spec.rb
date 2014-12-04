@@ -2,7 +2,15 @@ require 'rails_helper'
 
 feature 'Users' do
 
-  scenario 'User can create a user' do
+  scenario 'Logged in user can create a user' do
+    password = 'password'
+    user = create_user(:password => password)
+
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit users_path
     expect(page).to have_content('Users')
     click_on 'Create User'
@@ -17,9 +25,15 @@ feature 'Users' do
     expect(page).to have_content('Thomas Iliffe')
   end
 
-  scenario 'User can edit a user' do
-    user = create_user
+  scenario 'Logged in user can edit a user' do
+    password = 'password'
+    user = create_user(:password => password)
 
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit users_path
     expect(page).to have_content(user.first_name)
     click_on 'Edit'
@@ -32,18 +46,32 @@ feature 'Users' do
     expect(page).to have_no_content(user.first_name)
   end
 
-  scenario 'User can see users show page' do
-    user = create_user
+  scenario 'Logged in user can see users show page' do
+    password = 'password'
+    user = create_user(:password => password)
 
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit users_path
-    click_on user.full_name
+    within '.table' do
+      click_on user.full_name
+    end
 
     expect(page).to have_content(user.first_name)
   end
 
-  scenario 'User can delete a user' do
-    user = create_user
+  scenario 'Logged in user can delete a user' do
+    password = 'password'
+    user = create_user(:password => password)
 
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit users_path
     expect(page).to have_content(user.full_name)
     click_on 'Edit'

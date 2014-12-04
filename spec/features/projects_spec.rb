@@ -2,7 +2,15 @@ require 'rails_helper'
 
 feature 'Projects' do
 
-  scenario 'User can create a Project' do
+  scenario 'Logged in user can create a Project' do
+    password = 'password'
+    user = create_user(:password => password)
+
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit projects_path
     expect(page).to have_content('Projects')
     click_on 'Create Project'
@@ -12,15 +20,21 @@ feature 'Projects' do
     expect(page).to have_content('Build something!')
   end
 
-  scenario 'User can see a project listing number of memberships, tasks' do
+  scenario 'Logged in user can see a project listing number of memberships, tasks' do
+    password = 'password'
+    user = create_user(:password => password)
     project = create_project
-    user = create_user
     create_task(project)
     create_task(project)
     create_task(project)
     create_task(project)
     create_membership(project, user)
 
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit projects_path
     click_on project.name
 
@@ -30,10 +44,17 @@ feature 'Projects' do
     expect(page).to have_content("Deleting this project will also delete 1 membership, 4 tasks and associated comments")
   end
 
-  scenario 'User can edit a project' do
+  scenario 'Logged in user can edit a project' do
+    password = 'password'
+    user = create_user(:password => password)
     project = create_project
     new_proj_name = 'New Project Name'
 
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit project_path(project)
     expect(page).to have_content(project.name)
     click_on 'Edit'
@@ -45,9 +66,16 @@ feature 'Projects' do
     expect(page).to have_content('Project was successfully updated')
   end
 
-  scenario 'User can delete a Project' do
+  scenario 'Logged in user can delete a Project' do
+    password = 'password'
+    user = create_user(:password => password)
     project = create_project
 
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit project_path(project)
     expect(page).to have_content(project.name)
     within('.well') do
@@ -58,7 +86,15 @@ feature 'Projects' do
     expect(page).to have_content('Project was successfully deleted')
   end
 
-  scenario 'User cannot create a Project without a name' do
+  scenario 'Logged in user cannot create a Project without a name' do
+    password = 'password'
+    user = create_user(:password => password)
+
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit projects_path
     click_on 'Create Project'
     click_on 'Create Project'
@@ -67,6 +103,9 @@ feature 'Projects' do
   end
 
   scenario "Project lists number of tasks, project tasks lists only project's tasks" do
+    password = 'password'
+    user = create_user(:password => password)
+
     project3 = create_project
     project1 = create_project
     project0 = create_project
@@ -76,6 +115,12 @@ feature 'Projects' do
     p3_task_3 = create_task(project3)
 
     p1_task = create_task(project1)
+
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
 
     visit project_path(project3)
     expect(page).to have_content('3 tasks')
@@ -95,12 +140,20 @@ feature 'Projects' do
     expect(page).to_not have_content(p1_task.description)
   end
 
-  scenario 'User can see list of projects tasks' do
+  scenario 'Logged in user can see list of projects tasks' do
+    password = 'password'
+    user = create_user(:password => password)
+
     project = create_project
     task_1 = create_task(project)
     task_2 = create_task(project)
     task_3 = create_task(project)
 
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit project_path(project)
     click_on "#{project.tasks.count} tasks"
     expect(page).to have_content(project.name)
@@ -110,8 +163,15 @@ feature 'Projects' do
   end
 
   scenario 'Projects index also lists number of members, tasks' do
-
+    password = 'password'
+    user = create_user(:password => password)
     project00 = create_project
+
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit projects_path
     within('tbody') do
       within first('tr') do

@@ -1,10 +1,16 @@
 require 'rails_helper'
 
 feature 'Memberships' do
-  scenario 'User can create a membership' do
-    user = create_user
+  scenario 'Logged in user can create a membership' do
+    password = 'password'
+    user = create_user(:password => password)
     project = create_project
 
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit project_memberships_path(project)
     select user.full_name, from: 'membership_user_id'
     select 'member', from: 'membership_role'
@@ -17,12 +23,18 @@ feature 'Memberships' do
     end
   end
 
-  scenario 'User can edit a membership' do
-    user = create_user
+  scenario 'Logged in user can edit a membership' do
+    password = 'password'
+    user = create_user(:password => password)
     project = create_project
     membership = create_membership(project, user)
     new_role = 'owner'
 
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit project_memberships_path(project)
     within '.table' do
       select new_role, from: 'membership_role'
@@ -36,11 +48,17 @@ feature 'Memberships' do
     end
   end
 
-  scenario 'User can delete a membership' do
-    user = create_user
+  scenario 'Logged in user can delete a membership' do
+    password = 'password'
+    user = create_user(:password => password)
     project = create_project
     membership = create_membership(project, user)
 
+    visit root_path
+    click_link ('Sign In')
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    click_button('Sign in')
     visit project_memberships_path(project)
 
     within '.table' do
