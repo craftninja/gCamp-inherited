@@ -12,14 +12,22 @@ feature 'Projects' do
     expect(page).to have_content('Build something!')
   end
 
-  scenario 'User can see a project' do
+  scenario 'User can see a project listing number of memberships, tasks' do
     project = create_project
+    user = create_user
+    create_task(project)
+    create_task(project)
+    create_task(project)
+    create_task(project)
+    create_membership(project, user)
 
     visit projects_path
     click_on project.name
 
     expect(page).to have_content(project.name)
     expect(page).to have_content('Edit')
+    expect(page).to have_content('Delete')
+    expect(page).to have_content("Deleting this project will also delete 1 membership, 4 tasks and associated comments")
   end
 
   scenario 'User can edit a project' do

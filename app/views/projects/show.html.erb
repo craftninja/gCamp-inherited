@@ -25,6 +25,10 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="well">
+      <p><strong>Delete project</strong></p>
+      <p>
+        Deleting this project will also delete <%= pluralize(@project.memberships.count, 'membership') %>, <%= pluralize(@project.tasks.count, 'task') %> and associated comments
+      </p>
       <%= link_to 'Delete', project_path(@project), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
     </div>
   </div>
