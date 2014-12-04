@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Projects' do
 
-  scenario 'Logged in user can create a Project' do
+  scenario 'Logged in user can create a Project, are added as project owner' do
     password = 'password'
     user = create_user(:password => password)
 
@@ -15,6 +15,13 @@ feature 'Projects' do
     click_on 'Create Project'
 
     expect(page).to have_content('Build something!')
+    expect(page).to have_content('1 membership')
+    click_on '1 membership'
+
+    within '.table' do
+      expect(page).to have_content(user.full_name)
+      expect(page).to have_content('owner')
+    end
   end
 
   scenario 'Logged in user can see a project listing number of memberships, tasks' do

@@ -13,6 +13,11 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     if @project.save
+      Membership.create(
+        :project => @project,
+        :user => current_user,
+        :role => :owner
+      )
       redirect_to project_path(@project), notice: 'Project was successfully created.'
     else
       render :new
