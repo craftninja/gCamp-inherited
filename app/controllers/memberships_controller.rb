@@ -1,5 +1,7 @@
 class MembershipsController < ApplicationController
 
+  before_action :ensure_membership
+
   def index
     @project = Project.find(params[:project_id])
     @membership = @project.memberships.new
@@ -38,4 +40,16 @@ class MembershipsController < ApplicationController
   def allowed_params
     params.require(:membership).permit(:user_id, :role,)
   end
+
+  def set_project
+    @project = Project.find(params[:project_id])
+  end
+
+  def ensure_membership
+    set_project
+    unless @project.memberships.find_by(:user => current_user)
+      render file: 'public/404.html', status: :not_found, layout: false
+    end
+  end
+
 end
