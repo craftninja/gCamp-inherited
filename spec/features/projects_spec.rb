@@ -39,7 +39,9 @@ feature 'Projects' do
     sign_in(user, password)
 
     visit projects_path
-    click_on project.name
+    within '.table' do
+      click_on project.name
+    end
 
     expect(page).to have_content(project.name)
     expect(page).to have_content('Edit')
@@ -114,7 +116,7 @@ feature 'Projects' do
     expect(page).to have_content("Name can't be blank")
   end
 
-  scenario "Project lists number of tasks, project tasks lists only project's tasks" do
+  scenario "Navbar has links to user's projects, Project show numbers tasks, tasks index lists only project's tasks" do
     password = 'password'
     user = create_user(:password => password)
 
@@ -125,6 +127,8 @@ feature 'Projects' do
     project0 = create_project
     create_membership(project0, user)
 
+    not_my_project = create_project
+
     p3_task_1 = create_task(project3)
     p3_task_2 = create_task(project3)
     p3_task_3 = create_task(project3)
@@ -132,6 +136,14 @@ feature 'Projects' do
     p1_task = create_task(project1)
 
     sign_in(user, password)
+
+    within '.navbar' do
+      expect(page).to have_link(project0.name)
+      expect(page).to have_link(project1.name)
+      expect(page).to have_link(project3.name)
+      expect(page).to have_link('New Project')
+      expect(page).to_not have_link(not_my_project.name)
+    end
 
     visit project_path(project3)
     expect(page).to have_content('3 tasks')
