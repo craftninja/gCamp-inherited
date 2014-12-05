@@ -47,6 +47,18 @@ feature 'Projects' do
     expect(page).to have_content("Deleting this project will also delete 1 membership, 4 tasks and associated comments")
   end
 
+  scenario 'Logged in user can only see projects they are members of' do
+    user = create_user
+    project = create_project
+    membership = create_membership(project, user)
+    other_project = create_project
+
+    sign_in(user)
+
+    expect(page).to have_content(project.name)
+    expect(page).to_not have_content(other_project.name)
+  end
+
   scenario 'Logged in user can edit a project' do
     password = 'password'
     user = create_user(:password => password)
@@ -101,8 +113,11 @@ feature 'Projects' do
     user = create_user(:password => password)
 
     project3 = create_project
+    create_membership(project3, user)
     project1 = create_project
+    create_membership(project1, user)
     project0 = create_project
+    create_membership(project0, user)
 
     p3_task_1 = create_task(project3)
     p3_task_2 = create_task(project3)
@@ -151,47 +166,37 @@ feature 'Projects' do
 
   scenario 'Projects index also lists number of members, tasks' do
     password = 'password'
-    user = create_user(:password => password)
-    project00 = create_project
+    user1 = create_user(:password => password)
+    project1 = create_project
+    create_membership(project1, user1)
+    create_task(project1)
 
-    sign_in(user, password)
+    sign_in(user1, password)
 
-    visit projects_path
-    within('tbody') do
-      within first('tr') do
-        expect(page).to have_content('0', :minimum => 2)
-      end
-    end
-    project00.destroy
-
-    project11 = create_project
-    user1 = create_user
-    create_task(project11)
-    create_membership(project11, user1)
     visit projects_path
     within('tbody') do
       within first('tr') do
         expect(page).to have_content('1', :minimum => 2)
       end
     end
-    project11.destroy
+    project1.destroy
 
-    project33 = create_project
+    project3 = create_project
     user2 = create_user
     user3 = create_user
-    create_task(project33)
-    create_task(project33)
-    create_task(project33)
-    create_membership(project33, user1)
-    create_membership(project33, user2)
-    create_membership(project33, user3)
+    create_task(project3)
+    create_task(project3)
+    create_task(project3)
+    create_membership(project3, user1)
+    create_membership(project3, user2)
+    create_membership(project3, user3)
     visit projects_path
     within('tbody') do
       within first('tr') do
         expect(page).to have_content('3', :minimum => 2)
       end
     end
-    project33.destroy
+    project3.destroy
   end
 
 end
