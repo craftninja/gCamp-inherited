@@ -59,10 +59,4 @@ class TasksController < ApplicationController
     params.require(:task).permit(:description, :complete, :due_date)
   end
 
-  def ensure_membership
-    unless @project.memberships.find_by(:user => current_user)
-      render file: 'public/404.html', status: :not_found, layout: false
-    end
-  end
-
 end

@@ -55,10 +55,4 @@ class ProjectsController < ApplicationController
       params.require(:project).permit(:name)
   end
 
-  def ensure_membership
-    unless @project.memberships.find_by(:user => current_user)
-      render file: 'public/404.html', status: :not_found, layout: false
-    end
-  end
-
 end

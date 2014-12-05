@@ -15,6 +15,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  helper_method :current_user
+  def ensure_membership
+    unless @project.memberships.find_by(:user => current_user)
+      render file: 'public/404.html', status: :not_found, layout: false
+    end
+  end
+
+  helper_method :current_user, :ensure_membership
 
 end
