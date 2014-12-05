@@ -136,19 +136,17 @@ feature 'Tasks' do
   end
 
   scenario 'User can see number of members on project index' do
-    project = create_project
     password = 'password'
     user1 = create_user(:password => password)
     user2 = create_user
+    project = create_project
+    membership = create_membership(project, user1)
 
     sign_in(user1, password)
 
     visit project_path(project)
-    click_on '0 members'
+    click_on '1 member'
     expect(page).to have_content("#{project.name}: Manage Members")
-    create_membership(project, user1)
-    visit project_path(project)
-    expect(page).to have_content('1 member')
     create_membership(project, user2)
     visit project_path(project)
     expect(page).to have_content('2 members')

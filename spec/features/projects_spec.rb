@@ -57,12 +57,17 @@ feature 'Projects' do
 
     expect(page).to have_content(project.name)
     expect(page).to_not have_content(other_project.name)
+
+    visit project_path(other_project)
+    expect(page).to_not have_content(other_project.name)
+    expect(page).to have_content("The page you were looking for doesn't exist")
   end
 
   scenario 'Logged in user can edit a project' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
+    create_membership(project, user)
     new_proj_name = 'New Project Name'
 
     sign_in(user, password)
@@ -82,6 +87,7 @@ feature 'Projects' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
+    create_membership(project, user)
 
     sign_in(user, password)
 
@@ -150,6 +156,7 @@ feature 'Projects' do
     user = create_user(:password => password)
 
     project = create_project
+    create_membership(project, user)
     task_1 = create_task(project)
     task_2 = create_task(project)
     task_3 = create_task(project)

@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
 
   before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_membership, only: [:show, :edit, :update, :destroy]
 
   def index
     @projects = current_user.projects
@@ -52,6 +53,12 @@ class ProjectsController < ApplicationController
 
   def project_params
       params.require(:project).permit(:name)
+  end
+
+  def ensure_membership
+    unless @project.memberships.find_by(:user => current_user)
+      render file: 'public/404.html', status: :not_found, layout: false
+    end
   end
 
 end
