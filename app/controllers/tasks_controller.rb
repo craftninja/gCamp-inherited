@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :set_project
+  before_action :ensure_membership
 
   def index
     @tasks = @project.tasks.where(complete: false).page(params[:page]).per(5)
@@ -56,6 +57,12 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:description, :complete, :due_date)
+  end
+
+  def ensure_membership
+    unless @project.memberships.find_by(:user => current_user)
+      render file: 'public/404.html', status: :not_found, layout: false
+    end
   end
 
 end

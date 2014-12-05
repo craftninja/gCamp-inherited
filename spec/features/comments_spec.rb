@@ -6,6 +6,7 @@ feature 'Comments' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
+    create_membership(project, user)
     task = create_task(project)
 
     sign_in(user, password)
@@ -28,6 +29,7 @@ feature 'Comments' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
+    create_membership(project, user)
     task = create_task(project)
 
     sign_in(user, password)

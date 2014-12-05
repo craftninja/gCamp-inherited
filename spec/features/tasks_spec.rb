@@ -6,6 +6,7 @@ feature 'Tasks' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
+    create_membership(project, user)
 
     sign_in(user, password)
 
@@ -30,6 +31,7 @@ feature 'Tasks' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
+    create_membership(project, user)
     task = create_task(project)
 
     sign_in(user, password)
@@ -48,6 +50,7 @@ feature 'Tasks' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
+    create_membership(project, user)
     task = create_task(project)
 
     sign_in(user, password)
@@ -72,6 +75,7 @@ feature 'Tasks' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
+    create_membership(project, user)
     task = create_task(project)
 
     sign_in(user, password)
@@ -90,6 +94,7 @@ feature 'Tasks' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
+    create_membership(project, user)
 
     sign_in(user, password)
 
@@ -105,13 +110,16 @@ feature 'Tasks' do
     user = create_user(:password => password)
 
     project0 = create_project(:name => 'Zero Tasks')
+    create_membership(project0, user)
     task0 = create_task(project0)
 
     project1 = create_project(:name => 'One Task')
+    create_membership(project1, user)
     task1 = create_task(project1)
     comment1 = create_comment(task1)
 
     project3 = create_project
+    create_membership(project3, user)
     task3 = create_task(project3)
     comment3a = create_comment(task3)
     comment3b = create_comment(task3)
@@ -150,6 +158,31 @@ feature 'Tasks' do
     create_membership(project, user2)
     visit project_path(project)
     expect(page).to have_content('2 members')
+  end
+
+  scenario 'User can only manage tasks if they are member of task project' do
+    password = 'password'
+    user = create_user(:password => password)
+
+    project = create_project
+    membership = create_membership(project, user)
+    task = create_task(project)
+
+    other_user = create_user
+    other_project = create_project
+    other_membership = create_membership(other_project, other_user)
+    other_task = create_task(other_project)
+
+    sign_in(user, password)
+
+    visit project_tasks_path(project)
+    expect(page).to have_content(project.name)
+    expect(page).to_not have_content(other_project.name)
+
+    visit project_task_path(other_project, other_task)
+    expect(page).to have_content("The page you were looking for doesn't exist")
+    visit edit_project_task_path(other_project, other_task)
+    expect(page).to have_content("The page you were looking for doesn't exist")
   end
 
 end
