@@ -26,7 +26,7 @@ feature 'Projects' do
     end
   end
 
-  scenario 'Logged in user can see a project listing number of memberships, tasks' do
+  scenario 'Logged in user can see a project, lists number of assoc. memberships & tasks' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
