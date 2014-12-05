@@ -1,14 +1,12 @@
 class MembershipsController < ApplicationController
-
+  before_action :set_project
   before_action :ensure_membership
 
   def index
-    @project = Project.find(params[:project_id])
     @membership = @project.memberships.new
   end
 
   def create
-    @project = Project.find(params[:project_id])
     @membership = @project.memberships.new(allowed_params)
     if @membership.save
       redirect_to project_memberships_path, notice: "#{@membership.user.full_name} was added successfully"
@@ -18,7 +16,6 @@ class MembershipsController < ApplicationController
   end
 
   def update
-    @project = Project.find(params[:project_id])
     @membership = @project.memberships.find(params[:id])
     @membership.update(allowed_params)
     if @membership.save
@@ -29,7 +26,6 @@ class MembershipsController < ApplicationController
   end
 
   def destroy
-    @project = Project.find(params[:project_id])
     membership = @project.memberships.find(params[:id])
     membership.destroy
     redirect_to project_memberships_path, notice: "#{membership.user.full_name} was removed successfully"
@@ -46,7 +42,6 @@ class MembershipsController < ApplicationController
   end
 
   def ensure_membership
-    set_project
     unless @project.memberships.find_by(:user => current_user)
       render file: 'public/404.html', status: :not_found, layout: false
     end
