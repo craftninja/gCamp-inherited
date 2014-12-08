@@ -34,7 +34,7 @@ feature 'Projects' do
     create_task(project)
     create_task(project)
     create_task(project)
-    create_membership(project, user)
+    create_membership(project, user, :role => :owner)
 
     sign_in(user, password)
 
@@ -65,12 +65,28 @@ feature 'Projects' do
     expect(page).to have_content("The page you were looking for doesn't exist")
   end
 
-  scenario 'Logged in user can edit a project' do
+  scenario 'Only the project owner can edit a project' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
-    create_membership(project, user)
+    create_membership(project, user, :role => :owner)
+
+    member_user = create_user(:password => password)
+    create_membership(project, member_user, :role => :member)
+
     new_proj_name = 'New Project Name'
+
+    sign_in(member_user, password)
+
+    visit project_path(project)
+    expect(page).to have_content(project.name)
+    expect(page).to_not have_content('Edit')
+    expect(page).to_not have_content('Delete')
+    visit edit_project_path(project)
+    expect(page).to have_content("The page you were looking for doesn't exist")
+
+    visit '/'
+    click_on 'Sign Out'
 
     sign_in(user, password)
 
@@ -89,7 +105,7 @@ feature 'Projects' do
     password = 'password'
     user = create_user(:password => password)
     project = create_project
-    create_membership(project, user)
+    create_membership(project, user, :role => :owner)
 
     sign_in(user, password)
 

@@ -21,6 +21,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def ensure_ownership
+    unless current_user.owner?(@project)
+      render file: 'public/404.html', status: :not_found, layout: false
+    end
+  end
+
   helper_method :current_user, :ensure_membership
 
 end

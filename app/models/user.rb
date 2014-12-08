@@ -11,4 +11,8 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def owner?(project)
+    self.memberships.where("project_id = ? AND role = ?", project.id, 1).any?
+  end
+
 end

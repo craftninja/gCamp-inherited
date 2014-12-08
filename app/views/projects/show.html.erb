@@ -1,7 +1,9 @@
 <div class= "page-header">
+  <% if current_user.owner?(@project) %>
   <div class= "pull-right">
     <%= link_to 'Edit', edit_project_path(@project), class: "btn btn-info" %>
   </div>
+  <% end %>
 
   <h1><%= @project.name %></h1>
 </div>
@@ -22,6 +24,7 @@
   </div>
 </div>
 
+<% if current_user.owner?(@project) %>
 <div class="row">
   <div class="col-sm-12">
     <div class="well">
@@ -33,3 +36,4 @@
     </div>
   </div>
 </div>
+<% end %>

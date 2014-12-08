@@ -2,6 +2,7 @@ class ProjectsController < ApplicationController
 
   before_action :set_project, only: [:show, :edit, :update, :destroy]
   before_action :ensure_membership, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_ownership, only: [:edit, :update, :destroy]
 
   def index
     @projects = current_user.projects
